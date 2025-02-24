@@ -14,7 +14,7 @@ public class JdbcConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/employee_db");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/db2");
         dataSource.setUsername("root");    // Replace with your MySQL username
         dataSource.setPassword("1234s"); // Replace with your MySQL password
         return dataSource;
