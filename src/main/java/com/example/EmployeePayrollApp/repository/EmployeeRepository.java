@@ -19,7 +19,7 @@ public class EmployeeRepository {
         String sql = "SELECT * FROM employees";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Employee employee = new Employee();
-            employee.setId(rs.getLong("id"));
+            employee.setId((int) rs.getLong("id"));
             employee.setName(rs.getString("name"));
             employee.setRole(rs.getString("role"));
             employee.setSalary(rs.getDouble("salary"));
@@ -31,7 +31,7 @@ public class EmployeeRepository {
         String sql = "SELECT * FROM employees WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
             Employee employee = new Employee();
-            employee.setId(rs.getLong("id"));
+            employee.setId((int)rs.getLong("id"));
             employee.setName(rs.getString("name"));
             employee.setRole(rs.getString("role"));
             employee.setSalary(rs.getDouble("salary"));
