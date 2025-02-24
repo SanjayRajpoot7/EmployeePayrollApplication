@@ -1,29 +1,27 @@
 package com.example.EmployeePayrollApp.model;
 
 public class Employee {
-
-    private Long id;
+    private int id;
     private String name;
     private String role;
     private double salary;
 
-    // Default constructor
+    // Constructors
     public Employee() {}
 
-    // Constructor with parameters
-    public Employee(Long id, String name, String role, double salary) {
+    public Employee(int id, String name, String role, double salary) {
         this.id = id;
         this.name = name;
         this.role = role;
         this.salary = salary;
     }
 
-    // Getters and setters
-    public Long getId() {
+    // Getters and Setters
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
