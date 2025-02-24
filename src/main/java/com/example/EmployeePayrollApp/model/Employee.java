@@ -1,12 +1,18 @@
 package com.example.EmployeePayrollApp.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Employee {
+
+    @Id
     private int id;
     private String name;
     private String role;
     private double salary;
 
-    // Constructors
+    // Constructors, getters, and setters
     public Employee() {}
 
     public Employee(int id, String name, String role, double salary) {
@@ -16,7 +22,6 @@ public class Employee {
         this.salary = salary;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
