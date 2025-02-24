@@ -26,7 +26,7 @@ public class EmployeeService {
             @Override
             public Employee mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 return new Employee(
-                        rs.getLong("id"),
+                        (int) rs.getLong("id"),
                         rs.getString("name"),
                         rs.getString("role"),
                         rs.getDouble("salary")
@@ -42,7 +42,7 @@ public class EmployeeService {
             @Override
             public Employee mapRow(java.sql.ResultSet rs, int rowNum) throws java.sql.SQLException {
                 return new Employee(
-                        rs.getLong("id"),
+                        (int)rs.getLong("id"),
                         rs.getString("name"),
                         rs.getString("role"),
                         rs.getDouble("salary")
