@@ -14,7 +14,9 @@ public class EmployeePayrollAppApplication {
 	private static final Logger log = LoggerFactory.getLogger(EmployeePayrollAppApplication.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(EmployeePayrollAppApplication.class, args);
+//		SpringApplication.run(EmployeePayrollAppApplication.class, args);
+		ApplicationContext context = SpringApplication.run(EmployeePayrollAppApplication.class, args);
+		log.info("Employee payroll app started in {} Environment", context.getEnvironment().getProperty("spring.profiles.active"));
 
 	}
 
