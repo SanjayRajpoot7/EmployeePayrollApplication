@@ -29,9 +29,9 @@ public class EmployeeController {
     }
 
     // Get employee by ID
-    @GetMapping("/{id}")
+    @GetMapping("/api/employees/{id}")
     public Employee getEmployeeById(@PathVariable int id) {
-        return employeeService.getEmployeeById(id);
+        return employeeService.getEmployeeById(id);  // Calls the service
     }
 
     // Create new employee
@@ -61,41 +61,6 @@ public class EmployeeController {
         return isDeleted ? ResponseEntity.ok("Employee deleted successfully") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
     }
 
-
-
-//    @Autowired
-//    private EmployeeService employeeService;
-//
-//    // Get all employees
-//    @GetMapping
-//    public List<Employee> getAllEmployees() {
-//        return employeeService.getAllEmployees();
-//    }
-//
-//    // Get employee by ID
-//    @GetMapping("/{id}")
-//    public Employee getEmployeeById(@PathVariable int id) {
-//        return employeeService.getEmployeeById(id);
-//    }
-//
-//    // Create new employee
-//    @PostMapping
-//    public Employee createEmployee(@RequestBody Employee employee) {
-//        return employeeService.createEmployee(employee);
-//    }
-//
-//    // Update existing employee
-//    @PutMapping("/{id}")
-//    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
-//        return employeeService.updateEmployee(id, employee);
-//    }
-//
-//    // Delete employee
-//    @DeleteMapping("/{id}")
-//    public String deleteEmployee(@PathVariable int id) {
-//        boolean isDeleted = employeeService.deleteEmployee(id);
-//        return isDeleted ? "Employee deleted successfully" : "Employee not found";
-//    }
 
     @GetMapping("/logExample")
     public String logExample() {

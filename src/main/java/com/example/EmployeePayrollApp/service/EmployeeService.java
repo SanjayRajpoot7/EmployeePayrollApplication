@@ -1,5 +1,6 @@
 package com.example.EmployeePayrollApp.service;
 
+import com.example.EmployeePayrollApp.exception.EmployeeNotFoundException;
 import com.example.EmployeePayrollApp.model.Employee;
 import com.example.EmployeePayrollApp.repository.EmployeeRepository;
 import org.apache.catalina.User;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -36,10 +38,12 @@ public class EmployeeService {
         employees.add(new Employee(4, "John", "Supervisor", 43000));
     }
 
-    // Fetch all employees
-//    public List<Employee> getAllEmployees() {
-//        return employees;
-//    }
+
+    public Employee getEmployeeById(Long id) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        return employeeOptional.orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
+    }
+
 
     // Fetch employee by ID
     public Employee getEmployeeById(int id) {
