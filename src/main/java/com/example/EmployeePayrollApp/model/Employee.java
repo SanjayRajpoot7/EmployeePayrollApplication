@@ -2,6 +2,8 @@ package com.example.EmployeePayrollApp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -12,6 +14,10 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @NotEmpty(message = "Name cannot be empty")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name can only contain letters and spaces")
+
     @Column(name = "name")
     private String name;
     @Column(name = "position")

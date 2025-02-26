@@ -1,11 +1,14 @@
 package com.example.EmployeePayrollApp.controller;
 
+import com.example.EmployeePayrollApp.dto.ResponseDTO;
 import com.example.EmployeePayrollApp.model.Employee;
 import com.example.EmployeePayrollApp.repository.EmployeeRepository;
 import com.example.EmployeePayrollApp.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,24 +22,47 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/") // Handle GET requests for all employees
+    // Get all employees
+    @GetMapping
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
-    @PostMapping("/") // Handle POST requests to create a new employee
-    public Employee saveEmployee(@RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    // Get employee by ID
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable int id) {
+        return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-        Employee savedEmployee = employeeService.saveEmployee(employee);
-        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    // Create new employee with validation
+    @PostMapping
+    public ResponseDTO createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseDTO("Validation Error", bindingResult.getAllErrors());
+        }
+        Employee createdEmployee = employeeService.createEmployee(employee);
+        return new ResponseDTO("Employee created successfully", createdEmployee);
     }
 
+    // Update existing employee with validation
+    @PutMapping("/{id}")
+    public ResponseDTO updateEmployee(@PathVariable int id, @Valid @RequestBody Employee employee, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseDTO("Validation Error", bindingResult.getAllErrors());
+        }
+        Employee updatedEmployee = employeeService.updateEmployee(id, employee);
+        if (updatedEmployee == null) {
+            return new ResponseDTO("Employee not found", null);
+        }
+        return new ResponseDTO("Employee updated successfully", updatedEmployee);
+    }
 
-
+    // Delete employee
+    @DeleteMapping("/{id}")
+    public String deleteEmployee(@PathVariable int id) {
+        boolean isDeleted = employeeService.deleteEmployee(id);
+        return isDeleted ? "Employee deleted successfully" : "Employee not found";
+    }
 
 
 //    @Autowired
