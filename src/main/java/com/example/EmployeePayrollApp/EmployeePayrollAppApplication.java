@@ -15,9 +15,11 @@ public class EmployeePayrollAppApplication {
 
 	public static void main(String[] args) {
 //		SpringApplication.run(EmployeePayrollAppApplication.class, args);
-		ApplicationContext context = SpringApplication.run(EmployeePayrollAppApplication.class, args);
-		log.info("Employee payroll app started in {} Environment", context.getEnvironment().getProperty("spring.profiles.active"));
 
+		ApplicationContext context = SpringApplication.run(EmployeePayrollAppApplication.class, args);
+//		System.out.println("Employee payroll app started in " + context.getEnvironment().getProperty("spring.profiles.active") + " environment");
+		log.info("Employee payroll App started in {} Environment ", context.getEnvironment().getProperty("environment"));
+		log.info("Employee payroll DB user is {} ", context.getEnvironment().getProperty("spring.datasource.username"));
 	}
 
 }

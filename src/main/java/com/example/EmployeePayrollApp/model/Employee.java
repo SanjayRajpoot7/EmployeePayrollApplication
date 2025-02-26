@@ -1,16 +1,24 @@
 package com.example.EmployeePayrollApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "employee1")
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "position")
     private String role;
+    @Column(name = "salary")
     private double salary;
+
 
     // Constructors, getters, and setters
     public Employee() {}
