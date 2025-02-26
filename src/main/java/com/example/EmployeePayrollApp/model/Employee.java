@@ -15,7 +15,7 @@ public class Employee {
     @Column(name = "id")
     private int id;
 
-    @NotEmpty(message = "Name cannot be empty")
+    @NotEmpty(message = "Name is required")
     @Pattern(regexp = "^[A-Za-z ]+$", message = "Name can only contain letters and spaces")
 
     @Column(name = "name")

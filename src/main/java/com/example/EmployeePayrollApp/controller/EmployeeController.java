@@ -34,35 +34,33 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
-    // Create new employee with validation
+    // Create new employee
     @PostMapping
-    public ResponseDTO createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDTO> createEmployee(@Valid @RequestBody Employee employee, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseDTO("Validation Error", bindingResult.getAllErrors());
+            return new ResponseEntity<>(new ResponseDTO("Validation Failed", bindingResult.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
         Employee createdEmployee = employeeService.createEmployee(employee);
-        return new ResponseDTO("Employee created successfully", createdEmployee);
+        return new ResponseEntity<>(new ResponseDTO("Employee Created Successfully", createdEmployee), HttpStatus.CREATED);
     }
 
-    // Update existing employee with validation
+    // Update existing employee
     @PutMapping("/{id}")
-    public ResponseDTO updateEmployee(@PathVariable int id, @Valid @RequestBody Employee employee, BindingResult bindingResult) {
+    public ResponseEntity<ResponseDTO> updateEmployee(@PathVariable int id, @Valid @RequestBody Employee employee, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseDTO("Validation Error", bindingResult.getAllErrors());
+            return new ResponseEntity<>(new ResponseDTO("Validation Failed", bindingResult.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
         Employee updatedEmployee = employeeService.updateEmployee(id, employee);
-        if (updatedEmployee == null) {
-            return new ResponseDTO("Employee not found", null);
-        }
-        return new ResponseDTO("Employee updated successfully", updatedEmployee);
+        return new ResponseEntity<>(new ResponseDTO("Employee Updated Successfully", updatedEmployee), HttpStatus.OK);
     }
 
     // Delete employee
     @DeleteMapping("/{id}")
-    public String deleteEmployee(@PathVariable int id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable int id) {
         boolean isDeleted = employeeService.deleteEmployee(id);
-        return isDeleted ? "Employee deleted successfully" : "Employee not found";
+        return isDeleted ? ResponseEntity.ok("Employee deleted successfully") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
     }
+
 
 
 //    @Autowired
