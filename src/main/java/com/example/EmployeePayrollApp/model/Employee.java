@@ -1,70 +1,38 @@
 package com.example.EmployeePayrollApp.model;
 
+import com.example.EmployeePayrollApp.dto.EmployeeDTO;
 import jakarta.persistence.*;
-import lombok.Data;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Data
-@Table(name = "employee1")
-public class Employee {
+@Table(name = "newTable4")
+@NoArgsConstructor
+@AllArgsConstructor
+public @Data class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
-
-    @NotEmpty(message = "Name is required")
-    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name can only contain letters and spaces")
-
-    @Column(name = "name")
     private String name;
-    @Column(name = "position")
-    private String role;
-    @Column(name = "salary")
-    private double salary;
+    private long salary;
+    private String gender;
+    private LocalDate startDate;
+    private String note;
+    private String profilepic;
 
+    // ✅ Converts List<String> to String
+    private List<String> departments;
 
-    // Constructors, getters, and setters
-    public Employee() {}
-
-    public Employee(int id, String name, String role, double salary) {
-        this.id = id;
-        this.name = name;
-        this.role = role;
-        this.salary = salary;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public Employee(EmployeeDTO employeePayrollDTO) {
+        this.name = employeePayrollDTO.getName();
+        this.salary = employeePayrollDTO.getSalary();
+        this.gender = employeePayrollDTO.getGender();
+        this.note = employeePayrollDTO.getNote();
+        this.startDate = LocalDate.parse(employeePayrollDTO.getStartDate());
+        this.profilepic = employeePayrollDTO.getProfilepic();
+        this.departments = employeePayrollDTO.getDepartments();
     }
 }

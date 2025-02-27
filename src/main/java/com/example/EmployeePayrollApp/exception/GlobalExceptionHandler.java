@@ -1,13 +1,12 @@
 package com.example.EmployeePayrollApp.exception;
 
+import com.example.EmployeePayrollApp.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.validation.BindingResult;
-import com.example.EmployeePayrollApp.dto.ResponseDTO;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,17 +14,17 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handle EmployeeNotFoundException
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<ResponseDTO> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
-        ResponseDTO response = new ResponseDTO("Employee Not Found", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(EmployeeNotFoundException e){
+        ResponseDTO responseDTO = new ResponseDTO("not valid exception" , e.getMessage());
+        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 
-    // Handle other global exceptions here
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDTO> handleGeneralException(Exception ex) {
-        ResponseDTO response = new ResponseDTO("An unexpected error occurred", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+        List<ObjectError> errorList = exception.getBindingResult().getAllErrors();
+        List<String> errMesg = errorList.stream().map(objErr -> objErr.getDefaultMessage()).toList();
+        ResponseDTO responseDTO = new ResponseDTO("Exception while processing REST request" , errMesg);
+        return new ResponseEntity<ResponseDTO>(responseDTO , HttpStatus.BAD_REQUEST);
     }
 }

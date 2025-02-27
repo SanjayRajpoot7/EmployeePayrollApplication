@@ -1,87 +1,56 @@
 package com.example.EmployeePayrollApp.service;
 
+
+import com.example.EmployeePayrollApp.dto.EmployeeDTO;
 import com.example.EmployeePayrollApp.exception.EmployeeNotFoundException;
 import com.example.EmployeePayrollApp.model.Employee;
 import com.example.EmployeePayrollApp.repository.EmployeeRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class EmployeeService {
+public class EmployeeService implements InterfaceEmployeePayrollService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // Method to get all employees
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll(); // This is assuming you're using JpaRepository
+    // Get all employees from the database
+    @Override
+    public List<Employee> getEmployeePayrollData() {
+        return employeeRepository.findAll();
     }
 
-    // Method to save an employee
-    public Employee saveEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+    // Get employee by ID using JPA
+    @Override
+    public Employee getEmployeePayrollDataById(int empId) {
+        return employeeRepository.findById((long) empId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee Not Found with ID: " + empId));
     }
 
-    // In-memory storage for employee data
-    private List<Employee> employees = new ArrayList<>();
-
-    // Constructor to add sample data (optional)
-    public EmployeeService() {
-        employees.add(new Employee(1, "John Doe", "Software Engineer", 75000));
-        employees.add(new Employee(2, "Jane Smith", "HR Manager", 80000));
-        employees.add(new Employee(3, "Jitesh", "Engineer", 65000));
-        employees.add(new Employee(4, "John", "Supervisor", 43000));
+    //  Create new employee and save to MySQL
+    @Override
+    public Employee createEmployeePayrollData(EmployeeDTO empPayrollDTO) {
+        Employee empData = new Employee(empPayrollDTO);
+        return employeeRepository.save(empData); // Saves to DB
     }
 
-
-    public Employee getEmployeeById(Long id) {
-        Optional<Employee> employeeOptional = employeeRepository.findById(id);
-        return employeeOptional.orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
+    //  Update employee data in MySQL --db
+    @Override
+    public Employee updateEmployeePayrollData(int empId, EmployeeDTO empPayrollDTO) {
+        Employee existingEmployee = getEmployeePayrollDataById(empId);
+        existingEmployee.setName(empPayrollDTO.getName());
+        existingEmployee.setSalary(empPayrollDTO.getSalary());
+        return employeeRepository.save(existingEmployee); // Saves updated record to DB
     }
 
-
-    // Fetch employee by ID
-    public Employee getEmployeeById(int id) {
-        return employees.stream()
-                .filter(employee -> employee.getId() == id)
-                .findFirst()
-                .orElse(null); // Return null if employee not found
-    }
-
-    // Add a new employee
-    public Employee createEmployee(Employee employee) {
-        // Simulate an auto-incremented ID (in a real-world app, the DB would handle this)
-        int newId = employees.size() + 1;
-        employee.setId(newId);
-        employees.add(employee);
-        return employee;
-    }
-
-    // Update an employee's details
-    public Employee updateEmployee(int id, Employee employee) {
-        // Find the employee to update
-        Employee existingEmployee = getEmployeeById(id);
-        if (existingEmployee != null) {
-            existingEmployee.setName(employee.getName());
-            existingEmployee.setRole(employee.getRole());
-            existingEmployee.setSalary(employee.getSalary());
-            return existingEmployee;
+    //  Delete employee from MySQL -- db
+    @Override
+    public void deleteEmployeePayrollData(int empId) {
+        if (!employeeRepository.existsById((long) empId)) {
+            throw new EmployeeNotFoundException("Cannot delete, Employee ID not found: " + empId);
         }
-        return null; // Return null if employee doesn't exist
-    }
-
-    // Delete employee by ID
-    public boolean deleteEmployee(int id) {
-        Employee employeeToDelete = getEmployeeById(id);
-        if (employeeToDelete != null) {
-            employees.remove(employeeToDelete);
-            return true;
-        }
-        return false;
+        employeeRepository.deleteById((long) empId);
     }
 }

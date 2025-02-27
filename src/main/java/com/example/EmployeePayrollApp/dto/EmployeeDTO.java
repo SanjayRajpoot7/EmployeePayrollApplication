@@ -1,32 +1,32 @@
 package com.example.EmployeePayrollApp.dto;
 
-public class EmployeeDTO {
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+import lombok.ToString;
+
+import java.util.List;
+
+@Data
+public @ToString class EmployeeDTO {
+
+    @NotEmpty(message = "Employee name cannot be null")
+    @Pattern(regexp = "^[A-Z][a-zA-Z\\s]{2,}$", message = "Employee name Invalid")
     private String name;
-    private double salary;
 
-    // Constructors
-    public EmployeeDTO() {}
+    @Min(value = 500 , message = "Min Wage should be more than 500")
+    private long salary;
 
-    public EmployeeDTO(String name, double salary) {
-        this.name = name;
-        this.salary = salary;
-    }
+    private String gender;
 
-    // Getters and Setters
-    public String getName() {
-        return name;
-    }
+    private String startDate;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String note;
 
-    public double getSalary() {
-        return salary;
-    }
+    private String profilepic;
 
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
+    private List<String> departments;  // ✅ FIXED: Un-commented
+
 }
-
