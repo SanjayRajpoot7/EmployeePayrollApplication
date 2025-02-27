@@ -26,13 +26,39 @@ public @Data class Employee {
     // ✅ Converts List<String> to String
     private List<String> departments;
 
-    public Employee(EmployeeDTO employeePayrollDTO) {
-        this.name = employeePayrollDTO.getName();
-        this.salary = employeePayrollDTO.getSalary();
-        this.gender = employeePayrollDTO.getGender();
-        this.note = employeePayrollDTO.getNote();
-        this.startDate = LocalDate.parse(employeePayrollDTO.getStartDate());
-        this.profilepic = employeePayrollDTO.getProfilepic();
-        this.departments = employeePayrollDTO.getDepartments();
+    public Employee(EmployeeDTO employeeDTO) {
+        this.name = employeeDTO.getName();
+        this.salary = employeeDTO.getSalary();
+        this.gender = employeeDTO.getGender();
+        this.note = employeeDTO.getNote();
+        this.startDate = employeeDTO.getStartDate();
+        this.profilepic = employeeDTO.getProfilepic();
+        this.departments = employeeDTO.getDepartments();
     }
+
+    // Method to update the employee details
+    public void updateDetails(EmployeeDTO employeeDTO) {
+        if (employeeDTO.getName() != null) {
+            this.name = employeeDTO.getName();
+        }
+        if (employeeDTO.getSalary() > 0) {
+            this.salary = employeeDTO.getSalary();
+        }
+        if (employeeDTO.getGender() != null) {
+            this.gender = employeeDTO.getGender();
+        }
+        if (employeeDTO.getNote() != null) {
+            this.note = employeeDTO.getNote();
+        }
+        if (employeeDTO.getStartDate() != null) {
+            this.startDate = employeeDTO.getStartDate();
+        }
+        if (employeeDTO.getProfilepic() != null) {
+            this.profilepic = employeeDTO.getProfilepic();
+        }
+        if (employeeDTO.getDepartments() != null) {
+            this.departments = employeeDTO.getDepartments();
+        }
+    }
+
 }

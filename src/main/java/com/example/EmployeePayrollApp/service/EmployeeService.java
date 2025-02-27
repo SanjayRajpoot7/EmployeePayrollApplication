@@ -5,52 +5,58 @@ import com.example.EmployeePayrollApp.dto.EmployeeDTO;
 import com.example.EmployeePayrollApp.exception.EmployeeNotFoundException;
 import com.example.EmployeePayrollApp.model.Employee;
 import com.example.EmployeePayrollApp.repository.EmployeeRepository;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
+@Data
 @Service
+@Slf4j
 public class EmployeeService implements InterfaceEmployeePayrollService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // Get all employees from the database
     @Override
     public List<Employee> getEmployeePayrollData() {
-        return employeeRepository.findAll();
+        return List.of();
     }
 
-    // Get employee by ID using JPA
     @Override
-    public Employee getEmployeePayrollDataById(int empId) {
-        return employeeRepository.findById((long) empId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee Not Found with ID: " + empId));
+    public Employee getEmployeePayrollDataById(int empid) {
+        return null;
     }
 
-    //  Create new employee and save to MySQL
     @Override
-    public Employee createEmployeePayrollData(EmployeeDTO empPayrollDTO) {
-        Employee empData = new Employee(empPayrollDTO);
-        return employeeRepository.save(empData); // Saves to DB
+    public Employee createEmployeePayrollData(EmployeeDTO employeeDTO) {
+        log.info("Creating employee with name: {}", employeeDTO.getName());
+        Employee employee = new Employee(employeeDTO);
+        employeeRepository.save(employee);
+        log.info("Employee created successfully with ID: {}", employee.getId());
+        return employee;
     }
 
-    //  Update employee data in MySQL --db
     @Override
-    public Employee updateEmployeePayrollData(int empId, EmployeeDTO empPayrollDTO) {
-        Employee existingEmployee = getEmployeePayrollDataById(empId);
-        existingEmployee.setName(empPayrollDTO.getName());
-        existingEmployee.setSalary(empPayrollDTO.getSalary());
-        return employeeRepository.save(existingEmployee); // Saves updated record to DB
+    public Employee updateEmployeePayrollData(int empId, EmployeeDTO employeeDTO) {
+        log.info("Updating employee with ID: {}", empId);
+        Employee existingEmployee = employeeRepository.findById((long) empId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+        existingEmployee.updateDetails(employeeDTO);
+        employeeRepository.save(existingEmployee);
+        log.info("Employee updated successfully with ID: {}", empId);
+        return existingEmployee;
     }
 
-    //  Delete employee from MySQL -- db
     @Override
     public void deleteEmployeePayrollData(int empId) {
-        if (!employeeRepository.existsById((long) empId)) {
-            throw new EmployeeNotFoundException("Cannot delete, Employee ID not found: " + empId);
-        }
-        employeeRepository.deleteById((long) empId);
+        log.info("Deleting employee with ID: {}", empId);
+        Employee existingEmployee = employeeRepository.findById((long) empId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
+        employeeRepository.delete(existingEmployee);
+        log.info("Employee deleted successfully with ID: {}", empId);
     }
 }
