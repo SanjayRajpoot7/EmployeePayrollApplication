@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "newTable4")
+@Table(name = "employees")
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data class Employee {
@@ -62,3 +62,34 @@ public @Data class Employee {
     }
 
 }
+
+//import jakarta.persistence.*;
+//import lombok.*;
+//
+//import java.time.LocalDate;
+//import java.util.List;
+//
+//@Entity
+//@Table(name = "dataEmployees")
+//@Data // Lombok to generate getters, setters, toString, equals, hashCode
+//@NoArgsConstructor
+//@AllArgsConstructor
+//public class Employee {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private int id;
+//
+//    private String name;
+//    private long salary;
+//    private String gender;
+//    private LocalDate startDate;
+//    private String note;
+//    private String profilepic;
+//
+//    @ElementCollection
+//    @CollectionTable(name = "employees", joinColumns = @JoinColumn(name = "id"))
+//    @Column(name = "department")
+//    private List<String> departments;
+//
+//}

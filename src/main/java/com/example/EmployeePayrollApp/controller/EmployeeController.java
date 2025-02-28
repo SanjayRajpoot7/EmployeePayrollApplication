@@ -65,3 +65,43 @@ public class EmployeeController {
         return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
 }
+
+
+
+
+
+//import com.example.EmployeePayrollApp.dto.EmployeeDTO;
+//import com.example.EmployeePayrollApp.model.Employee;
+//import com.example.EmployeePayrollApp.service.EmployeeService;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//import java.util.List;
+//
+//@RestController
+//@RequestMapping("/employees")
+//@Slf4j
+//public class EmployeeController {
+//
+//    @Autowired
+//    private EmployeeService employeePayrollService;
+//
+//    @GetMapping
+//    public List<Employee> getAllEmployeePayrolls() {
+//        return employeePayrollService.getAllEmployeePayrolls();
+//    }
+//
+//    @PostMapping("/create")
+//    public ResponseEntity<Employee> createEmployeePayroll(@RequestBody EmployeeDTO employeeDTO) {
+//        Employee savedEmployee = employeePayrollService.saveEmployeePayroll(employeeDTO);
+//        return ResponseEntity.ok(savedEmployee);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Employee> getEmployeePayrollById(@PathVariable("id") int id) {
+//        Employee employee = employeePayrollService.getEmployeePayrollById(id);
+//        return ResponseEntity.ok(employee);
+//    }
+//}

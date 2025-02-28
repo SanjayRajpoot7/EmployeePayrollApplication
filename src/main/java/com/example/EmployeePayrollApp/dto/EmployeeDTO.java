@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 public @ToString class EmployeeDTO {
 
+    private int id;
+
     @NotEmpty(message = "Employee name cannot be null")
     @Pattern(regexp = "^[A-Z][a-zA-Z\\s]{2,}$", message = "Employee name Invalid")
     private String name;
@@ -40,4 +42,8 @@ public @ToString class EmployeeDTO {
     @NotBlank(message = "Department cannot be blank")
     private String department;
 
+
+//    public int getId() {
+//        return id;
+//    }
 }
